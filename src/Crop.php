@@ -14,6 +14,8 @@ class Crop extends File
     private $ratioW = 100;
 
     private $ratioH = 100;
+    
+    private $css_suffix = "";
 
     protected $view = 'laravel-admin-cropper::cropper';
 
@@ -28,8 +30,15 @@ class Crop extends File
 
     protected function preview()
     {
-        if(!is_null($this->value()))
-            return $this->objectUrl($this->value());
+        if(!is_null($this->value())) {
+
+            $url = $this->objectUrl($this->value());
+
+            if (!empty($this->css_suffix)){
+                $url  =  $url. $this->css_suffix;
+            }
+            return $url;
+        }
     }
 
     /**
@@ -99,6 +108,11 @@ class Crop extends File
             $this->attributes['data-h'] = $this->ratioH;
         }
         return $this;
+    }
+
+    public function setCssSuffix($name) {
+
+        $this->css_suffix = $name;
     }
 
     public function render()
